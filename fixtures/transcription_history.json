@@ -1,118 +1,127 @@
 {
   "history": [
     {
-      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-      "rawText": "Lorem ipsum dolor sit amet, um, consectetur adipiscing elit. Sed do eiusmod like tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-      "id": "TEST-0001-AAAA-BBBB-CCCCCCCCCCCC",
-      "timestamp": 786105600,
+      "duration": 13.535680055618286,
       "sourceType": "app",
-      "sourceIdentifier": "dev.zed.Zed",
-      "status": { "completed": {} },
-      "duration": 45.5,
-      "audioPath": "file:///Users/test/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/test1.m4a",
-      "syncedAt": 786105601
+      "text": "Hey Mom, I'm trying out this new app called Monologue. It does incredible voice-to-text transcription and formats my messages based on context. You're going to love it.\n\nLove,  \nBrandon",
+      "sourceIdentifier": "com.zeitalabs.jottleai",
+      "id": "8103274A-F71D-448D-A680-6BB141083765",
+      "audioPath": "file:///Users/alioudiallo/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/1764338055.3663921.m4a",
+      "timestamp": 786024003,
+      "syncedAt": 786024004,
+      "status": {
+        "completed": {}
+      }
     },
     {
-      "text": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
-      "rawText": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Um, excepteur sint occaecat cupidatat non proident.",
-      "id": "TEST-0002-AAAA-BBBB-CCCCCCCCCCCC",
-      "timestamp": 786102000,
+      "duration": 10.71972906589508,
+      "sourceType": "app",
+      "text": "Hey Cora, let's loop David into this project. His email is david@every.to or you can call him at 844-302-9036.",
+      "sourceIdentifier": "com.zeitalabs.jottleai",
+      "id": "94985CDC-6DF6-4298-A666-1CB283CB461E",
+      "audioPath": "file:///Users/alioudiallo/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/1764338055.3663921.m4a",
+      "timestamp": 786024001,
+      "syncedAt": 786024002,
+      "status": {
+        "completed": {}
+      }
+    },
+    {
+      "text": "Hey team, just reviewed the pull request for the authentication refactor. Overall it looks great! A few suggestions: the token refresh logic on line 142 could benefit from exponential backoff instead of a fixed retry interval. Also, consider extracting the validation helpers into a separate module for reusability. Happy to discuss in our sync tomorrow.",
+      "rawText": "Hey team, just reviewed the pull request for the authentication refactor. Overall it looks great! Um, a few suggestions: the token refresh logic on line 142 could benefit from exponential backoff instead of like a fixed retry interval. Also, consider extracting the validation helpers into a separate module for reusability. Happy to discuss in our sync tomorrow.",
+      "id": "DEMO-0001-AUTH-CODE-REVIEW123456",
+      "timestamp": 786024000,
+      "syncedAt": 786024001,
       "sourceType": "app",
       "sourceIdentifier": "com.github.wez.wezterm",
-      "status": { "completed": {} },
-      "duration": 28.3,
-      "syncedAt": 786102001
+      "status": {
+        "completed": {}
+      },
+      "duration": 32.5,
+      "audioPath": "file:///Users/alioudiallo/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/1764338055.3663921.m4a"
     },
     {
-      "text": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-      "rawText": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-      "id": "TEST-0003-AAAA-BBBB-CCCCCCCCCCCC",
-      "timestamp": 786098400,
-      "sourceType": "app",
-      "sourceIdentifier": "com.anthropic.claudefordesktop",
-      "status": { "completed": {} },
-      "duration": 62.1,
-      "audioPath": "file:///Users/test/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/test3.m4a",
-      "syncedAt": 786098401
-    },
-    {
-      "text": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-      "rawText": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, um, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-      "id": "TEST-0004-AAAA-BBBB-CCCCCCCCCCCC",
-      "timestamp": 786094800,
-      "sourceType": "app",
-      "sourceIdentifier": "com.mitchellh.ghostty",
-      "status": { "completed": {} },
-      "duration": 35.7,
-      "syncedAt": 786094801
-    },
-    {
-      "text": "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
-      "rawText": "Neque porro quisquam est, who like dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
-      "id": "TEST-0005-AAAA-BBBB-CCCCCCCCCCCC",
-      "timestamp": 786091200,
-      "sourceType": "app",
-      "sourceIdentifier": "dev.zed.Zed",
-      "status": { "completed": {} },
-      "duration": 18.2,
-      "audioPath": "file:///Users/test/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/test5.m4a",
-      "syncedAt": 786091201
-    },
-    {
-      "text": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
-      "rawText": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
-      "id": "TEST-0006-AAAA-BBBB-CCCCCCCCCCCC",
-      "timestamp": 786087600,
-      "sourceType": "app",
-      "sourceIdentifier": "com.tinyspeck.slackmacgap",
-      "status": { "completed": {} },
-      "duration": 52.9,
-      "syncedAt": 786087601
-    },
-    {
-      "text": "This transcription failed and should not appear in the list.",
-      "rawText": "This transcription failed and should not appear in the list.",
-      "id": "TEST-0007-AAAA-BBBB-CCCCCCCCCCCC",
-      "timestamp": 786084000,
-      "sourceType": "app",
-      "sourceIdentifier": "com.mitchellh.ghostty",
-      "status": { "failedTranscription": {} },
-      "duration": 5.0,
-      "syncedAt": 786084001
-    },
-    {
-      "text": "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
-      "rawText": "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
-      "id": "TEST-0008-AAAA-BBBB-CCCCCCCCCCCC",
-      "timestamp": 786080400,
-      "sourceType": "app",
-      "sourceIdentifier": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "status": { "completed": {} },
-      "duration": 41.4,
-      "syncedAt": 786080401
-    },
-    {
-      "text": "Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
-      "rawText": "Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
-      "id": "TEST-0009-AAAA-BBBB-CCCCCCCCCCCC",
-      "timestamp": 786076800,
-      "sourceType": "app",
-      "sourceIdentifier": "com.anthropic.claudefordesktop",
-      "status": { "completed": {} },
-      "duration": 38.6,
-      "audioPath": "file:///Users/test/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/test9.m4a",
-      "syncedAt": 786076801
-    },
-    {
-      "text": "Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.",
-      "rawText": "Nam libero tempore, um, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.",
-      "id": "TEST-0010-AAAA-BBBB-CCCCCCCCCCCC",
-      "timestamp": 786073200,
+      "text": "Remember to pick up coffee beans from Blue Bottle on the way home. Also need to cancel the dentist appointment for Friday and reschedule to next week.",
+      "rawText": "Remember to pick up coffee beans from Blue Bottle on the way home. Also need to cancel the dentist appointment for Friday and reschedule to next week.",
+      "id": "DEMO-0002-QUICK-NOTE-REMIND",
+      "timestamp": 786022200,
       "sourceType": "app",
       "sourceIdentifier": "md.obsidian",
-      "status": { "completed": {} },
-      "duration": 29.8,
-      "syncedAt": 786073201
+      "status": {
+        "completed": {}
+      },
+      "duration": 8.3,
+      "audioPath": "file:///Users/alioudiallo/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/1764338055.3663921.m4a",
+      "syncedAt": 786022201
+    },
+    {
+      "text": "Thanks for sending over the design specs! The new dashboard layout looks clean. I especially like the card-based approach for the metrics section. One thought: could we add a date range picker to the top right? That would make it easier to compare performance across different time periods. Let me know what you think!",
+      "rawText": "Thanks for sending over the design specs! The new dashboard layout looks clean. I especially like the card-based approach for the metrics section. One thought: could we add a date range picker to the top right? That would make it easier to compare performance across like different time periods. Let me know what you think!",
+      "id": "DEMO-0003-SLACK-MSG-DESIGN",
+      "timestamp": 785955600,
+      "sourceType": "app",
+      "sourceIdentifier": "com.tinyspeck.slackmacgap",
+      "status": {
+        "completed": {}
+      },
+      "duration": 18.7,
+      "audioPath": "file:///Users/alioudiallo/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/1764338055.3663921.m4a",
+      "syncedAt": 785955601
+    },
+    {
+      "text": "The API endpoint should accept both JSON and form-encoded data. Use the content-type header to determine which parser to invoke. For JSON, validate against the schema before processing. Return a 400 status with specific field errors if validation fails.",
+      "rawText": "The API endpoint should accept both JSON and form-encoded data. Use the content-type header to determine which parser to invoke. For JSON, validate against the schema before processing. Return a 400 status with specific field errors if validation fails.",
+      "id": "DEMO-0004-CODE-COMMENT-API",
+      "timestamp": 785937600,
+      "sourceType": "app",
+      "sourceIdentifier": "dev.zed.Zed",
+      "audioPath": "file:///Users/alioudiallo/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/1764338055.3663921.m4a",
+      "status": {
+        "completed": {}
+      },
+      "duration": 22.1,
+      "syncedAt": 785937601
+    },
+    {
+      "text": "Hi Sarah, thanks for reaching out about the partnership opportunity. I've reviewed the proposal and I think there's definitely potential here. Let's schedule a call next week to discuss the integration details. Tuesday or Wednesday afternoon works best for me. Looking forward to exploring this further!",
+      "rawText": "Hi Sarah, thanks for reaching out about the partnership opportunity. I've reviewed the proposal and I think there's definitely potential here. Um, let's schedule a call next week to discuss the integration details. Tuesday or Wednesday afternoon works best for me. Looking forward to exploring this further!",
+      "id": "DEMO-0005-EMAIL-REPLY-PART",
+      "timestamp": 785865600,
+      "sourceType": "app",
+      "sourceIdentifier": "com.apple.mail",
+      "status": {
+        "completed": {}
+      },
+      "duration": 15.4,
+      "audioPath": "file:///Users/demo/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/demo5.m4a",
+      "syncedAt": 785865601
+    },
+    {
+      "text": "Meeting notes from the product sync: We're targeting the beta release for mid-December. Key features include the new onboarding flow, improved search, and the collaborative editing mode. Action items: Mike will finalize the search algorithm by Friday, Lisa is handling the UI polish, and I'll coordinate with marketing on the launch announcement.",
+      "rawText": "Meeting notes from the product sync: We're targeting the beta release for mid-December. Key features include the new onboarding flow, improved search, and the collaborative editing mode. Um, action items: Mike will finalize the search algorithm by Friday, Lisa is handling the UI polish, and I'll coordinate with marketing on the launch announcement.",
+      "id": "DEMO-0006-MEETING-NOTES-PRD",
+      "timestamp": 785768400,
+      "sourceType": "app",
+      "sourceIdentifier": "us.zoom.xos",
+      "status": {
+        "completed": {}
+      },
+      "duration": 28.9,
+      "syncedAt": 785768401
+    },
+    {
+      "text": "This is my first transcription with Monologue! I'm excited to try out voice-to-text for my daily workflow. It seems like it'll be really useful for quick notes, code comments, and drafting messages without having to type everything out. Let's see how accurate it is!",
+      "rawText": "This is my first transcription with Monologue! I'm excited to try out voice-to-text for my daily workflow. It seems like it'll be really useful for quick notes, code comments, and drafting messages without having to type everything out. Let's see how accurate it is!",
+      "id": "DEMO-0007-ONBOARDING-FIRST",
+      "timestamp": 785509200,
+      "sourceType": "app",
+      "sourceIdentifier": "com.zeitalabs.JottleAI",
+      "status": {
+        "completed": {}
+      },
+      "duration": 12.6,
+      "audioPath": "file:///Users/demo/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/onboarding.m4a",
+      "syncedAt": 785509201
     }
   ]
 }
