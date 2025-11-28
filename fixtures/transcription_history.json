@@ -1,0 +1,118 @@
+{
+  "history": [
+    {
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "rawText": "Lorem ipsum dolor sit amet, um, consectetur adipiscing elit. Sed do eiusmod like tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "id": "TEST-0001-AAAA-BBBB-CCCCCCCCCCCC",
+      "timestamp": 786105600,
+      "sourceType": "app",
+      "sourceIdentifier": "dev.zed.Zed",
+      "status": { "completed": {} },
+      "duration": 45.5,
+      "audioPath": "file:///Users/test/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/test1.m4a",
+      "syncedAt": 786105601
+    },
+    {
+      "text": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
+      "rawText": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Um, excepteur sint occaecat cupidatat non proident.",
+      "id": "TEST-0002-AAAA-BBBB-CCCCCCCCCCCC",
+      "timestamp": 786102000,
+      "sourceType": "app",
+      "sourceIdentifier": "com.github.wez.wezterm",
+      "status": { "completed": {} },
+      "duration": 28.3,
+      "syncedAt": 786102001
+    },
+    {
+      "text": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+      "rawText": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+      "id": "TEST-0003-AAAA-BBBB-CCCCCCCCCCCC",
+      "timestamp": 786098400,
+      "sourceType": "app",
+      "sourceIdentifier": "com.anthropic.claudefordesktop",
+      "status": { "completed": {} },
+      "duration": 62.1,
+      "audioPath": "file:///Users/test/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/test3.m4a",
+      "syncedAt": 786098401
+    },
+    {
+      "text": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+      "rawText": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, um, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+      "id": "TEST-0004-AAAA-BBBB-CCCCCCCCCCCC",
+      "timestamp": 786094800,
+      "sourceType": "app",
+      "sourceIdentifier": "com.mitchellh.ghostty",
+      "status": { "completed": {} },
+      "duration": 35.7,
+      "syncedAt": 786094801
+    },
+    {
+      "text": "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
+      "rawText": "Neque porro quisquam est, who like dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
+      "id": "TEST-0005-AAAA-BBBB-CCCCCCCCCCCC",
+      "timestamp": 786091200,
+      "sourceType": "app",
+      "sourceIdentifier": "dev.zed.Zed",
+      "status": { "completed": {} },
+      "duration": 18.2,
+      "audioPath": "file:///Users/test/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/test5.m4a",
+      "syncedAt": 786091201
+    },
+    {
+      "text": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
+      "rawText": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
+      "id": "TEST-0006-AAAA-BBBB-CCCCCCCCCCCC",
+      "timestamp": 786087600,
+      "sourceType": "app",
+      "sourceIdentifier": "com.tinyspeck.slackmacgap",
+      "status": { "completed": {} },
+      "duration": 52.9,
+      "syncedAt": 786087601
+    },
+    {
+      "text": "This transcription failed and should not appear in the list.",
+      "rawText": "This transcription failed and should not appear in the list.",
+      "id": "TEST-0007-AAAA-BBBB-CCCCCCCCCCCC",
+      "timestamp": 786084000,
+      "sourceType": "app",
+      "sourceIdentifier": "com.mitchellh.ghostty",
+      "status": { "failedTranscription": {} },
+      "duration": 5.0,
+      "syncedAt": 786084001
+    },
+    {
+      "text": "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
+      "rawText": "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
+      "id": "TEST-0008-AAAA-BBBB-CCCCCCCCCCCC",
+      "timestamp": 786080400,
+      "sourceType": "app",
+      "sourceIdentifier": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "status": { "completed": {} },
+      "duration": 41.4,
+      "syncedAt": 786080401
+    },
+    {
+      "text": "Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
+      "rawText": "Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
+      "id": "TEST-0009-AAAA-BBBB-CCCCCCCCCCCC",
+      "timestamp": 786076800,
+      "sourceType": "app",
+      "sourceIdentifier": "com.anthropic.claudefordesktop",
+      "status": { "completed": {} },
+      "duration": 38.6,
+      "audioPath": "file:///Users/test/Library/Containers/com.zeitalabs.jottleai/Data/Library/Application%20Support/com.zeitalabs.jottleai/Recordings/test9.m4a",
+      "syncedAt": 786076801
+    },
+    {
+      "text": "Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.",
+      "rawText": "Nam libero tempore, um, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.",
+      "id": "TEST-0010-AAAA-BBBB-CCCCCCCCCCCC",
+      "timestamp": 786073200,
+      "sourceType": "app",
+      "sourceIdentifier": "md.obsidian",
+      "status": { "completed": {} },
+      "duration": 29.8,
+      "syncedAt": 786073201
+    }
+  ]
+}
