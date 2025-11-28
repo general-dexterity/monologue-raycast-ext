@@ -1,0 +1,3 @@
+# Monologue
+
+Actions for Monologue
