@@ -2,6 +2,12 @@
 
 Quick access to your [Monologue](https://www.monologue.to/) voice transcripts.
 
+![Transcript History](metadata/monologue-raycast-ext-1.png)
+
+![Filter by Application](metadata/monologue-raycast-ext-2.png)
+
+![Actions](metadata/monologue-raycast-ext-3.png)
+
 ## Commands
 
 - **Transcript History** - Browse and search all transcripts with a detail panel showing source app, duration, and recording time. Filter by application.
