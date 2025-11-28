@@ -5,7 +5,7 @@
   "description": "Quick access to Monologue voice transcripts",
   "icon": "extension-icon.png",
   "author": "aliou",
-  "owner": "general-dexterity",
+  "owner": "aliou",
   "platforms": ["macOS"],
   "categories": ["Productivity"],
   "license": "MIT",
