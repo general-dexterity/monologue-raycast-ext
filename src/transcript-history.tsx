@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Icon, List, open, showToast, Toast } from "@raycast/api"
+import { Action, ActionPanel, Icon, List, showToast, Toast } from "@raycast/api"
 import { useEffect, useMemo, useState } from "react"
 import {
   audioFileExists,
@@ -117,6 +117,9 @@ export default function Command() {
             key={t.id}
             title={truncateText(t.text, 50)}
             accessories={[{ date: recordedDate }]}
+            quickLook={
+              hasAudio && audioPath ? { path: audioPath, name: `Recording - ${formatDate(recordedDate)}` } : undefined
+            }
             detail={
               <List.Item.Detail
                 markdown={t.text}
@@ -140,24 +143,34 @@ export default function Command() {
               <ActionPanel>
                 <ActionPanel.Section>
                   <Action.Paste title="Paste Text" content={t.text} />
-                  <Action.Paste title="Paste Raw Text" content={t.rawText} />
+                  <Action.Paste
+                    title="Paste Raw Text"
+                    content={t.rawText}
+                    shortcut={{ modifiers: ["cmd", "shift"], key: "enter" }}
+                  />
+                  {hasAudio && audioPath && (
+                    <Action.ToggleQuickLook title="Preview Audio" shortcut={{ modifiers: ["cmd"], key: "y" }} />
+                  )}
                 </ActionPanel.Section>
                 <ActionPanel.Section>
-                  <Action.CopyToClipboard title="Copy Text" content={t.text} />
-                  <Action.CopyToClipboard title="Copy Raw Text" content={t.rawText} />
-                </ActionPanel.Section>
-                {hasAudio && audioPath && (
-                  <ActionPanel.Section>
-                    <Action
-                      title="Open Audio"
-                      icon={Icon.Play}
-                      onAction={async () => {
-                        await open(audioPath)
-                      }}
+                  <Action.CopyToClipboard
+                    title="Copy Text"
+                    content={t.text}
+                    shortcut={{ modifiers: ["cmd"], key: "c" }}
+                  />
+                  <Action.CopyToClipboard
+                    title="Copy Raw Text"
+                    content={t.rawText}
+                    shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
+                  />
+                  {hasAudio && audioPath && (
+                    <Action.ShowInFinder
+                      title="Show Audio in Finder"
+                      path={audioPath}
+                      shortcut={{ modifiers: ["cmd", "shift"], key: "f" }}
                     />
-                    <Action.ShowInFinder title="Show Audio in Finder" path={audioPath} />
-                  </ActionPanel.Section>
-                )}
+                  )}
+                </ActionPanel.Section>
               </ActionPanel>
             }
           />
