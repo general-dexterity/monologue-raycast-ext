@@ -1,7 +1,9 @@
-import { Cache } from "@raycast/api"
 import { constants } from "fs"
-import { access, readFile, stat } from "fs/promises"
+import { access, readFile } from "fs/promises"
 import { MACOS_EPOCH_OFFSET, TRANSCRIPTION_HISTORY_PATH } from "./constants"
+
+// Re-export database types and queries
+export { DATABASE_PATH, type DBTranscript, QUERIES } from "./database"
 
 export interface Transcript {
   text: string
@@ -17,22 +19,10 @@ export interface Transcript {
   syncedAt?: number
 }
 
-interface TranscriptionHistory {
-  history: Transcript[]
-}
-
-interface CachedData {
-  mtime: number
-  transcripts: Transcript[]
-}
-
-const cache = new Cache({ namespace: "transcripts" })
-const CACHE_KEY = "transcription-history"
-
 export class TranscriptError extends Error {
   constructor(
     message: string,
-    public readonly code: "NOT_FOUND" | "PARSE_ERROR" | "EMPTY" | "NO_COMPLETED",
+    public readonly code: "NOT_FOUND" | "PARSE_ERROR" | "EMPTY" | "NO_COMPLETED" | "DB_ERROR",
   ) {
     super(message)
     this.name = "TranscriptError"
@@ -48,61 +38,29 @@ export async function historyFileExists(): Promise<boolean> {
   }
 }
 
-async function getFileMtime(): Promise<number> {
-  const stats = await stat(TRANSCRIPTION_HISTORY_PATH)
-  return stats.mtimeMs
-}
-
-export async function getAllTranscripts(): Promise<Transcript[]> {
-  const mtime = await getFileMtime()
-
-  // Check cache
-  const cached = cache.get(CACHE_KEY)
-  if (cached) {
-    try {
-      const data: CachedData = JSON.parse(cached)
-      if (data.mtime === mtime) {
-        return data.transcripts
-      }
-    } catch {
-      // Invalid cache, continue to read file
-    }
-  }
-
-  // Read and parse file
-  const content = await readFile(TRANSCRIPTION_HISTORY_PATH, "utf-8")
-  const history: TranscriptionHistory = JSON.parse(content)
-  const transcripts = history.history || []
-
-  // Update cache
-  const cacheData: CachedData = { mtime, transcripts }
-  cache.set(CACHE_KEY, JSON.stringify(cacheData))
-
-  return transcripts
-}
-
-export async function getCompletedTranscripts(): Promise<Transcript[]> {
-  const all = await getAllTranscripts()
-  return all.filter((t) => "completed" in t.status)
-}
-
+/**
+ * Get the last completed transcript directly from JSON file.
+ * Used by quick commands that need immediate access without DB sync.
+ */
 export async function getLastCompletedTranscript(): Promise<Transcript> {
   if (!(await historyFileExists())) {
     throw new TranscriptError("Monologue not installed or no transcription history", "NOT_FOUND")
   }
 
-  let transcripts: Transcript[]
   try {
-    transcripts = await getCompletedTranscripts()
-  } catch {
+    const content = await readFile(TRANSCRIPTION_HISTORY_PATH, "utf-8")
+    const history = JSON.parse(content) as { history: Transcript[] }
+    const completed = history.history.filter((t) => "completed" in t.status)
+
+    if (completed.length === 0) {
+      throw new TranscriptError("No completed transcriptions found", "NO_COMPLETED")
+    }
+
+    return completed[0]
+  } catch (e) {
+    if (e instanceof TranscriptError) throw e
     throw new TranscriptError("Failed to parse transcription history", "PARSE_ERROR")
   }
-
-  if (transcripts.length === 0) {
-    throw new TranscriptError("No completed transcriptions found", "NO_COMPLETED")
-  }
-
-  return transcripts[0]
 }
 
 export function macosTimestampToDate(timestamp: number): Date {
@@ -136,10 +94,8 @@ export async function audioFileExists(audioPath: string | undefined): Promise<bo
  */
 export function isBundleId(sourceIdentifier: string): boolean {
   if (!sourceIdentifier) return false
-  // URLs start with http:// or https://
   if (sourceIdentifier.startsWith("http://") || sourceIdentifier.startsWith("https://")) {
     return false
   }
-  // Bundle IDs match pattern like "com.example.app" or "org.example.app"
   return /^[a-zA-Z][a-zA-Z0-9-]*(\.[a-zA-Z0-9-]+)+$/.test(sourceIdentifier)
 }

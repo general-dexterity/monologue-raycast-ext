@@ -1,13 +1,17 @@
+import { syncTranscripts } from "swift:../swift"
 import { Action, ActionPanel, Icon, List, showToast, Toast } from "@raycast/api"
-import { useEffect, useMemo, useState } from "react"
+import { useSQL } from "@raycast/utils"
+import { access, constants } from "fs/promises"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import {
   audioFileExists,
   audioPathToFilePath,
-  getCompletedTranscripts,
+  DATABASE_PATH,
+  type DBTranscript,
   historyFileExists,
   isBundleId,
   macosTimestampToDate,
-  Transcript,
+  QUERIES,
 } from "./lib/transcripts"
 import { formatDuration, getAppName, truncateText } from "./lib/utils"
 
@@ -22,77 +26,57 @@ function formatDate(date: Date): string {
   })
 }
 
-export default function Command() {
-  const [transcripts, setTranscripts] = useState<Transcript[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [notInstalled, setNotInstalled] = useState(false)
-  const [audioAvailability, setAudioAvailability] = useState<Record<string, boolean>>({})
+// Inner component that uses useSQL - only rendered after database exists
+function TranscriptList() {
   const [selectedApp, setSelectedApp] = useState<string>("all")
+  const [audioAvailability, setAudioAvailability] = useState<Record<string, boolean>>({})
 
-  // Get unique apps from transcripts (only valid bundle IDs, not URLs)
+  // Build the SQL query based on app filter only - Raycast handles text search via fuzzy filtering
+  const query = useMemo(() => {
+    if (selectedApp !== "all") {
+      return QUERIES.bySource(selectedApp)
+    }
+    return QUERIES.allTranscripts
+  }, [selectedApp])
+
+  // Query database using useSQL
+  const { data: transcripts, isLoading: isQueryLoading } = useSQL<DBTranscript>(DATABASE_PATH, query)
+
+  // Get unique sources for dropdown
+  const { data: sourcesData } = useSQL<{ sourceIdentifier: string }>(DATABASE_PATH, QUERIES.uniqueSources)
+
+  // Build apps list from unique sources
   const apps = useMemo(() => {
+    if (!sourcesData) return []
     const appSet = new Map<string, string>()
-    for (const t of transcripts) {
-      if (t.sourceIdentifier && isBundleId(t.sourceIdentifier) && !appSet.has(t.sourceIdentifier)) {
-        appSet.set(t.sourceIdentifier, getAppName(t.sourceIdentifier))
+    for (const s of sourcesData) {
+      if (s.sourceIdentifier && isBundleId(s.sourceIdentifier) && !appSet.has(s.sourceIdentifier)) {
+        appSet.set(s.sourceIdentifier, getAppName(s.sourceIdentifier))
       }
     }
     return Array.from(appSet.entries()).sort((a, b) => a[1].localeCompare(b[1]))
-  }, [transcripts])
+  }, [sourcesData])
 
-  // Filter transcripts by selected app
-  const filteredTranscripts = useMemo(() => {
-    if (selectedApp === "all") return transcripts
-    return transcripts.filter((t) => t.sourceIdentifier === selectedApp)
-  }, [transcripts, selectedApp])
-
-  useEffect(() => {
-    async function load() {
-      if (!(await historyFileExists())) {
-        setNotInstalled(true)
-        setIsLoading(false)
-        return
-      }
-
-      try {
-        const data = await getCompletedTranscripts()
-        setTranscripts(data)
-
-        // Check audio availability in background
-        const availability: Record<string, boolean> = {}
-        await Promise.all(
-          data.slice(0, 50).map(async (t) => {
-            availability[t.id] = await audioFileExists(t.audioPath)
-          }),
-        )
-        setAudioAvailability(availability)
-      } catch {
-        await showToast({ style: Toast.Style.Failure, title: "Failed to load transcripts" })
-      }
-      setIsLoading(false)
-    }
-    load()
+  // Check audio availability for visible transcripts
+  const checkAudio = useCallback(async (items: DBTranscript[]) => {
+    const availability: Record<string, boolean> = {}
+    await Promise.all(
+      items.slice(0, 50).map(async (t) => {
+        availability[t.id] = await audioFileExists(t.audioPath ?? undefined)
+      }),
+    )
+    setAudioAvailability((prev) => ({ ...prev, ...availability }))
   }, [])
 
-  if (notInstalled) {
-    return (
-      <List>
-        <List.EmptyView
-          title="Monologue Not Found"
-          description="Install Monologue to use this extension"
-          actions={
-            <ActionPanel>
-              <Action.OpenInBrowser title="Get Monologue" url="https://www.monologue.to" />
-            </ActionPanel>
-          }
-        />
-      </List>
-    )
-  }
+  useEffect(() => {
+    if (transcripts?.length) {
+      checkAudio(transcripts)
+    }
+  }, [transcripts, checkAudio])
 
   return (
     <List
-      isLoading={isLoading}
+      isLoading={isQueryLoading}
       isShowingDetail
       searchBarPlaceholder="Search transcripts..."
       searchBarAccessory={
@@ -106,7 +90,7 @@ export default function Command() {
         </List.Dropdown>
       }
     >
-      {filteredTranscripts.map((t) => {
+      {(transcripts ?? []).map((t) => {
         const hasAudio = audioAvailability[t.id]
         const audioPath = t.audioPath ? audioPathToFilePath(t.audioPath) : null
         const recordedDate = macosTimestampToDate(t.timestamp)
@@ -116,6 +100,7 @@ export default function Command() {
           <List.Item
             key={t.id}
             title={truncateText(t.text, 50)}
+            keywords={[t.text, t.rawText, sourceName]}
             accessories={[{ date: recordedDate }]}
             quickLook={
               hasAudio && audioPath ? { path: audioPath, name: `Recording - ${formatDate(recordedDate)}` } : undefined
@@ -178,4 +163,83 @@ export default function Command() {
       })}
     </List>
   )
+}
+
+// Main component - handles sync before rendering TranscriptList
+export default function Command() {
+  const [status, setStatus] = useState<"loading" | "not_installed" | "ready" | "sync_failed">("loading")
+
+  useEffect(() => {
+    async function initSync() {
+      // Check if Monologue is installed
+      if (!(await historyFileExists())) {
+        setStatus("not_installed")
+        return
+      }
+
+      try {
+        // Sync JSON to SQLite - this creates the database if it doesn't exist
+        const result = await syncTranscripts()
+        if (!result.success) {
+          await showToast({ style: Toast.Style.Failure, title: "Sync failed", message: result.message })
+        }
+        setStatus("ready")
+      } catch (error) {
+        await showToast({
+          style: Toast.Style.Failure,
+          title: "Failed to sync database",
+          message: String(error),
+        })
+        // Check if database exists from previous sync
+        try {
+          await access(DATABASE_PATH, constants.R_OK)
+          // DB exists, try to show the list with stale data
+          setStatus("ready")
+        } catch {
+          // DB doesn't exist, can't render TranscriptList
+          setStatus("sync_failed")
+        }
+      }
+    }
+    initSync()
+  }, [])
+
+  if (status === "loading") {
+    return <List isLoading={true} searchBarPlaceholder="Loading transcripts..." />
+  }
+
+  if (status === "not_installed") {
+    return (
+      <List>
+        <List.EmptyView
+          title="Monologue Not Found"
+          description="Install Monologue to use this extension"
+          actions={
+            <ActionPanel>
+              <Action.OpenInBrowser title="Get Monologue" url="https://www.monologue.to" />
+            </ActionPanel>
+          }
+        />
+      </List>
+    )
+  }
+
+  if (status === "sync_failed") {
+    return (
+      <List>
+        <List.EmptyView
+          title="Sync Failed"
+          description="Failed to sync transcripts and no database exists from previous sync"
+          actions={
+            <ActionPanel>
+              <Action title="Retry" onAction={() => setStatus("loading")} shortcut={{ modifiers: ["cmd"], key: "r" }} />
+            </ActionPanel>
+          }
+        />
+      </List>
+    )
+  }
+
+  // Only render TranscriptList after sync is complete (database exists)
+  return <TranscriptList />
 }
