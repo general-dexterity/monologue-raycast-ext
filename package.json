@@ -36,6 +36,13 @@
       "subtitle": "Monologue",
       "description": "Copy the most recent Monologue transcript to clipboard",
       "mode": "no-view"
+    },
+    {
+      "name": "refresh-database",
+      "title": "Refresh Database",
+      "subtitle": "Monologue",
+      "description": "Force rebuild the transcript database from source",
+      "mode": "no-view"
     }
   ],
   "dependencies": {
