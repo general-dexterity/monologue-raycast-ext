@@ -26,12 +26,51 @@ function formatDate(date: Date): string {
   })
 }
 
+// View mode configuration
+type ViewMode = "processed" | "raw"
+
+const VIEW_MODE_CONFIG = {
+  processed: {
+    primaryTitle: "Paste Text",
+    secondaryTitle: "Paste Raw Text",
+    copyPrimaryTitle: "Copy Text",
+    copySecondaryTitle: "Copy Raw Text",
+    toggleTitle: "Show Raw Transcript",
+    getText: (t: DBTranscript) => t.text,
+    getAltText: (t: DBTranscript) => t.rawText,
+  },
+  raw: {
+    primaryTitle: "Paste Raw Text",
+    secondaryTitle: "Paste Text",
+    copyPrimaryTitle: "Copy Raw Text",
+    copySecondaryTitle: "Copy Text",
+    toggleTitle: "Show Processed Transcript",
+    getText: (t: DBTranscript) => t.rawText,
+    getAltText: (t: DBTranscript) => t.text,
+  },
+} as const
+
+const PAGE_SIZE = 250
+
 // Inner component that uses useSQL - only rendered after database exists
 function TranscriptList() {
   const [selectedApp, setSelectedApp] = useState<string>("all")
+  const [viewMode, setViewMode] = useState<ViewMode>("processed")
+  const [searchText, setSearchText] = useState("")
+  const [displayLimit, setDisplayLimit] = useState(PAGE_SIZE)
   const [audioAvailability, setAudioAvailability] = useState<Record<string, boolean>>({})
 
-  // Build the SQL query based on app filter only - Raycast handles text search via fuzzy filtering
+  const mode = useMemo(() => VIEW_MODE_CONFIG[viewMode], [viewMode])
+  const toggleViewMode = useCallback(() => {
+    setViewMode((m) => (m === "processed" ? "raw" : "processed"))
+  }, [])
+
+  const handleSearchChange = useCallback((text: string) => {
+    setSearchText(text)
+    setDisplayLimit(PAGE_SIZE) // Reset pagination on search
+  }, [])
+
+  // Build the SQL query based on app filter only
   const query = useMemo(() => {
     if (selectedApp !== "all") {
       return QUERIES.bySource(selectedApp)
@@ -41,6 +80,14 @@ function TranscriptList() {
 
   // Query database using useSQL
   const { data: transcripts, isLoading: isQueryLoading } = useSQL<DBTranscript>(DATABASE_PATH, query)
+
+  // Filter transcripts based on search text (searches all items, not just displayed)
+  const filteredTranscripts = useMemo(() => {
+    if (!transcripts) return []
+    if (!searchText.trim()) return transcripts
+    const query = searchText.toLowerCase()
+    return transcripts.filter((t) => t.text.toLowerCase().includes(query) || t.rawText.toLowerCase().includes(query))
+  }, [transcripts, searchText])
 
   // Get unique sources for dropdown
   const { data: sourcesData } = useSQL<{ sourceIdentifier: string }>(DATABASE_PATH, QUERIES.uniqueSources)
@@ -74,11 +121,22 @@ function TranscriptList() {
     }
   }, [transcripts, checkAudio])
 
+  const totalCount = filteredTranscripts.length
+  const hasMore = displayLimit < totalCount
+
   return (
     <List
       isLoading={isQueryLoading}
       isShowingDetail
       searchBarPlaceholder="Search transcripts..."
+      filtering={false}
+      onSearchTextChange={handleSearchChange}
+      throttle
+      pagination={{
+        onLoadMore: () => setDisplayLimit((l) => l + PAGE_SIZE),
+        hasMore,
+        pageSize: PAGE_SIZE,
+      }}
       searchBarAccessory={
         <List.Dropdown tooltip="Filter by Application" storeValue onChange={setSelectedApp}>
           <List.Dropdown.Item title="All Applications" value="all" />
@@ -90,16 +148,18 @@ function TranscriptList() {
         </List.Dropdown>
       }
     >
-      {(transcripts ?? []).map((t) => {
+      {filteredTranscripts.slice(0, displayLimit).map((t) => {
         const hasAudio = audioAvailability[t.id]
         const audioPath = t.audioPath ? audioPathToFilePath(t.audioPath) : null
         const recordedDate = macosTimestampToDate(t.timestamp)
         const sourceName = isBundleId(t.sourceIdentifier) ? getAppName(t.sourceIdentifier) : "Browser"
+        const displayText = mode.getText(t)
+        const altText = mode.getAltText(t)
 
         return (
           <List.Item
             key={t.id}
-            title={truncateText(t.text, 50)}
+            title={truncateText(displayText, 50)}
             keywords={[t.text, t.rawText, sourceName]}
             accessories={[{ date: recordedDate }]}
             quickLook={
@@ -107,13 +167,13 @@ function TranscriptList() {
             }
             detail={
               <List.Item.Detail
-                markdown={t.text}
+                markdown={displayText}
                 metadata={
                   <List.Item.Detail.Metadata>
                     <List.Item.Detail.Metadata.Label title="Source" text={sourceName} />
                     <List.Item.Detail.Metadata.Label title="Duration" text={formatDuration(t.duration)} />
                     <List.Item.Detail.Metadata.Label title="Recorded" text={formatDate(recordedDate)} />
-                    <List.Item.Detail.Metadata.Label title="Characters" text={String(t.text.length)} />
+                    <List.Item.Detail.Metadata.Label title="Characters" text={String(displayText.length)} />
                     <List.Item.Detail.Metadata.Separator />
                     <List.Item.Detail.Metadata.Label
                       title="Audio"
@@ -127,11 +187,17 @@ function TranscriptList() {
             actions={
               <ActionPanel>
                 <ActionPanel.Section>
-                  <Action.Paste title="Paste Text" content={t.text} />
+                  <Action.Paste title={mode.primaryTitle} content={displayText} />
                   <Action.Paste
-                    title="Paste Raw Text"
-                    content={t.rawText}
+                    title={mode.secondaryTitle}
+                    content={altText}
                     shortcut={{ modifiers: ["cmd", "shift"], key: "enter" }}
+                  />
+                  <Action
+                    title={mode.toggleTitle}
+                    icon={Icon.Switch}
+                    shortcut={{ modifiers: ["cmd"], key: "t" }}
+                    onAction={toggleViewMode}
                   />
                   {hasAudio && audioPath && (
                     <Action.ToggleQuickLook title="Preview Audio" shortcut={{ modifiers: ["cmd"], key: "y" }} />
@@ -139,13 +205,13 @@ function TranscriptList() {
                 </ActionPanel.Section>
                 <ActionPanel.Section>
                   <Action.CopyToClipboard
-                    title="Copy Text"
-                    content={t.text}
+                    title={mode.copyPrimaryTitle}
+                    content={displayText}
                     shortcut={{ modifiers: ["cmd"], key: "c" }}
                   />
                   <Action.CopyToClipboard
-                    title="Copy Raw Text"
-                    content={t.rawText}
+                    title={mode.copySecondaryTitle}
+                    content={altText}
                     shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
                   />
                   {hasAudio && audioPath && (
